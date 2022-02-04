@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+header a {
+    color: white;
+}
+
+header a:hover {
+    color: lightgray;
+    text-decoration: none;
+}
+
+#current-city:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#zoom-buttons a{
+    color: #2c2c2c;
+}
+
+#zoom-buttons a:hover{
+    color: #676767;
+    cursor: pointer;
+}
+
+#map {
+    height: 500px;
+}
+
+.current-weather-container {
+    width: 400px;
+}
+
+.primary-header {
+    height: 60px;
+}
+
+.weather-forecast-card {
+    height: 320px;
+    width: 250px;
+    font-size: .8em;
+}
+
+.card-header {
+    background-color: #101010;
+    color: white;
+}
+
+#current-temp {
+    font-size: 3.5em;
+}
+
+.list-group li {
+    background-color: #f1eeee;
+    border:none;
+}
+
+.col {
+    padding: 0;
+}
+
+.forecast-high {
+    color: #d35c5c;
+    font-size: 1.1em;
+}
+
+.forecast-low {
+    color: #4c4cce;
+    font-size: 1.1em;
+}
+
+footer {
+    height: 60px;
+}
+
+@media (min-width: 1200px) {
+    .container{
+        max-width: 1400px;
+    }
+}

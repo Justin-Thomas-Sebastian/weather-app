@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+          crossorigin="anonymous">
+
+    <!-- Mapbox CSS -->
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>Weather Map Project</title>
+</head>
+
+<body>
+<!-- HEADER -->
+<header id="header-container" class="fluid-container primary-header bg-dark pb-1">
+    <div class="container d-flex justify-content-between align-items-center h-100">
+        <!-- LOGO-->
+        <div class="text-light w-25"><a href="#">Weather App</a></div>
+        <!-- SEARCH -->
+        <div class="pt-3 d-flex justify-content-center w-50 mt-1">
+            <div class="form-group">
+                <div id="geocoder"></div>
+            </div>
+        </div>
+        <!-- CURRENT CITY-->
+        <div class="text-light w-25 d-flex justify-content-end align-items-center">
+            <img src="assets/location.png" alt="location icon">
+            <span id="current-city"></span>
+        </div>
+    </div>
+</header>
+
+<!-- ZOOM IN/OUT BUTTONS -->
+<section class="container d-flex justify-content-end mt-3 mb-2">
+    <div id="zoom-buttons">
+        <a id="zoom-in-btn"><i class="fas fa-search-plus fa-2x"></i></a>
+        <a id="zoom-out-btn"><i class="fas fa-search-minus fa-2x"></i></a>
+    </div>
+</section>
+
+<!-- MAIN -->
+<main id="main-container" class="container d-flex">
+    <!-- CURRENT WEATHER CARD -->
+    <div class="current-weather-container card" id="current-weather">
+        <!-- CARD HEADER -->
+        <div class="card-header d-flex justify-content-between">
+            <span id="current-date"></span>
+            <span id="current-weekday"></span>
+            <span id="current-time"></span>
+        </div>
+        <!-- CARD BODY -->
+        <div class="card-body">
+            <h4 id="city-name" class="card-title text-center"></h4>
+            <p id="weather-desc" class="text-center"></p>
+            <h1 id="current-temp" class="text-center"></h1>
+        </div>
+        <!-- CARD LIST -->
+        <ul class="list-group list-group-flush" id="current-weather-details">
+            <li class="list-group-item"></li>
+            <li class="list-group-item"></li>
+            <li class="list-group-item"></li>
+            <li class="list-group-item"></li>
+            <li class="list-group-item"></li>
+        </ul>
+    </div>
+    <!-- MAP -->
+    <div id="map" class="flex-grow-1 ml-3"></div>
+</main>
+
+<!-- WEATHER FORECAST -->
+<section class="container">
+    <div id="weather-forecast-container" class="row justify-content-between px-3 my-4">
+        <!-- DAY 1 FORECAST CARD-->
+        <div class="weather-forecast-card card">
+            <!-- CARD HEADER -->
+            <div class="card-header d-flex justify-content-between">
+                <span id="forecast-date-1"></span>
+                <span id="forecast-weekday-1"></span>
+            </div>
+            <!-- CARD BODY -->
+            <div class="card-body">
+                <div class="row text-center m-auto">
+                    <span id="forecast-high-1" class="col-6 forecast-high"></span>
+                    <span id="forecast-low-1" class="col-6 forecast-low"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <img src="" alt="weather icon" id="forecast-icon-1">
+                </div>
+            </div>
+            <!-- CARD LIST -->
+            <ul class="list-group list-group-flush" id="forecast-details-1">
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+            </ul>
+        </div>
+        <!-- DAY 2 FORECAST CARD-->
+        <div class="weather-forecast-card card">
+            <!-- CARD HEADER -->
+            <div class="card-header d-flex justify-content-between">
+                <span id="forecast-date-2"></span>
+                <span id="forecast-weekday-2"></span>
+            </div>
+            <!-- CARD BODY -->
+            <div class="card-body">
+                <div class="row text-center m-auto">
+                    <span id="forecast-high-2" class="col-6 forecast-high"></span>
+                    <span id="forecast-low-2" class="col-6 forecast-low"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <img src="" alt="weather icon" id="forecast-icon-2">
+                </div>
+            </div>
+            <!-- CARD LIST -->
+            <ul class="list-group list-group-flush" id="forecast-details-2">
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+            </ul>
+        </div>
+        <!-- DAY 3 FORECAST CARD-->
+        <div class="weather-forecast-card card">
+            <!-- CARD HEADER -->
+            <div class="card-header d-flex justify-content-between">
+                <span id="forecast-date-3"></span>
+                <span id="forecast-weekday-3"></span>
+            </div>
+            <!-- CARD BODY -->
+            <div class="card-body">
+                <div class="row text-center m-auto">
+                    <span id="forecast-high-3" class="col-6 forecast-high"></span>
+                    <span id="forecast-low-3" class="col-6 forecast-low"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <img src="" alt="weather icon" id="forecast-icon-3">
+                </div>
+            </div>
+            <!-- CARD LIST -->
+            <ul class="list-group list-group-flush" id="forecast-details-3">
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+            </ul>
+        </div>
+        <!-- DAY 4 FORECAST CARD-->
+        <div class="weather-forecast-card card">
+            <!-- CARD HEADER -->
+            <div class="card-header d-flex justify-content-between">
+                <span id="forecast-date-4"></span>
+                <span id="forecast-weekday-4"></span>
+            </div>
+            <!-- CARD BODY -->
+            <div class="card-body">
+                <div class="row text-center m-auto">
+                    <span id="forecast-high-4" class="col-6 forecast-high"></span>
+                    <span id="forecast-low-4" class="col-6 forecast-low"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <img src="" alt="weather icon" id="forecast-icon-4">
+                </div>
+            </div>
+            <!-- CARD LIST -->
+            <ul class="list-group list-group-flush" id="forecast-details-4">
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+            </ul>
+        </div>
+        <!-- DAY 5 FORECAST CARD-->
+        <div class="weather-forecast-card card">
+            <!-- CARD HEADER -->
+            <div class="card-header d-flex justify-content-between">
+                <span id="forecast-date-5"></span>
+                <span id="forecast-weekday-5"></span>
+            </div>
+            <!-- CARD BODY -->
+            <div class="card-body">
+                <div class="row text-center m-auto">
+                    <span id="forecast-high-5" class="col-6 forecast-high"></span>
+                    <span id="forecast-low-5" class="col-6 forecast-low"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <img src="" alt="weather icon" id="forecast-icon-5">
+                </div>
+            </div>
+            <!-- CARD LIST -->
+            <ul class="list-group list-group-flush" id="forecast-details-5">
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<footer class="fluid-container bg-dark mt-5"></footer>
+
+<!-- jQuery -->
+<script src="js/jquery-2.2.4.js"></script>
+<!-- Mapbox JS -->
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+<!-- Mapbox Geocoder-->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+<!-- Keys -->
+<script src="js/keys.js"></script>
+<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/13ab473f8a.js" crossorigin="anonymous"></script>
+<!-- Custom JS -->
+<script src="js/app.js"></script>
+</body>
+</html>
