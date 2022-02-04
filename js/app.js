@@ -36,20 +36,6 @@ map.on("click", function(e) {
     getForecast(coordinates.lng, coordinates.lat);
 });
 
-// Increases mapbox zoom by 1 and center on current marker
-$("#zoom-in-btn").click(function(){
-    if(map.getZoom() === 22) { return }
-    map.setZoom(map.getZoom() + 1);
-    centerMapOnMarker();
-});
-
-// Decreases mapbox zoom by 1 and center on current marker
-$("#zoom-out-btn").click(function(){
-    if(map.getZoom() === 0) { return }
-    map.setZoom(map.getZoom() - 1);
-    centerMapOnMarker();
-});
-
 // Center map on current marker when current location text is clicked
 $("#current-city").click(function(){
     centerMapOnMarker();
@@ -168,12 +154,16 @@ function renderWeatherBackgroundImage(weather){
 // Initialize mapbox map
 function initializeMap(key, long, lat){
     mapboxgl.accessToken = key;
-    return new mapboxgl.Map({
+    let map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v9',
         zoom: 10,
         center: [long, lat]
     });
+
+    // Add zoom and rotation controls to the map.
+    map.addControl(new mapboxgl.NavigationControl());
+    return map;
 }
 
 // Initialize mapbox geocoder

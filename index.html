@@ -24,10 +24,10 @@
 
 <body>
 <!-- HEADER -->
-<header id="header-container" class="fluid-container primary-header bg-dark pb-1">
+<header id="header-container" class="fluid-container primary-header">
     <div class="container d-flex justify-content-between align-items-center h-100">
         <!-- LOGO-->
-        <div class="text-light w-25"><a href="#">Weather App</a></div>
+        <div class="w-25"><a href="#">Weather App</a></div>
         <!-- SEARCH -->
         <div class="pt-3 d-flex justify-content-center w-50 mt-1">
             <div class="form-group">
@@ -35,23 +35,15 @@
             </div>
         </div>
         <!-- CURRENT CITY-->
-        <div class="text-light w-25 d-flex justify-content-end align-items-center">
+        <div class="w-25 d-flex justify-content-end align-items-center">
             <img src="assets/location.png" alt="location icon">
             <span id="current-city"></span>
         </div>
     </div>
 </header>
 
-<!-- ZOOM IN/OUT BUTTONS -->
-<section class="container d-flex justify-content-end mt-3 mb-2">
-    <div id="zoom-buttons">
-        <a id="zoom-in-btn"><i class="fas fa-search-plus fa-2x"></i></a>
-        <a id="zoom-out-btn"><i class="fas fa-search-minus fa-2x"></i></a>
-    </div>
-</section>
-
 <!-- MAIN -->
-<main id="main-container" class="container d-flex">
+<main id="main-container" class="container d-flex mt-5">
     <!-- CURRENT WEATHER CARD -->
     <div class="current-weather-container card" id="current-weather">
         <!-- CARD HEADER -->
@@ -209,7 +201,7 @@
         </div>
     </div>
 </section>
-<footer class="fluid-container bg-dark mt-5"></footer>
+<footer class="fluid-container mt-5"></footer>
 
 <!-- jQuery -->
 <script src="js/jquery-2.2.4.js"></script>

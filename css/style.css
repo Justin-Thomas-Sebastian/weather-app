@@ -7,8 +7,23 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-header a {
+body {
+    /*background: hsla(207, 65%, 3%, 1);*/
+    /*background: radial-gradient(circle, hsla(207, 65%, 3%, 0.1) 0%, hsla(206, 100%, 25%, 1) 100%);*/
+    /*background: -moz-radial-gradient(circle, hsla(207, 65%, 3%, 0.1) 0%, hsla(206, 100%, 25%, 1) 100%);*/
+    /*background: -webkit-radial-gradient(circle, hsla(207, 65%, 3%, 0.1) 0%, hsla(206, 100%, 25%, 1) 100%);*/
+}
+
+.primary-header {
+    height: 80px;
     color: white;
+    background-color: #181818;
+    border: none;
+}
+
+.primary-header a {
+    color: white;
+    font-size: 1.5em;
 }
 
 header a:hover {
@@ -22,7 +37,7 @@ header a:hover {
 }
 
 #zoom-buttons a{
-    color: #2c2c2c;
+    color: #000000;
 }
 
 #zoom-buttons a:hover{
@@ -32,34 +47,47 @@ header a:hover {
 
 #map {
     height: 500px;
+    border-radius: 18px;
+}
+
+.card {
+    border: 1px solid #eaeaea;
 }
 
 .current-weather-container {
     width: 400px;
-}
-
-.primary-header {
-    height: 60px;
+    border-radius: 15px;
 }
 
 .weather-forecast-card {
     height: 320px;
     width: 250px;
     font-size: .8em;
+    border-radius: 15px;
 }
 
 .card-header {
-    background-color: #101010;
+    background-color: #181818;
     color: white;
 }
 
-#current-temp {
-    font-size: 3.5em;
+.card-header:first-child {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
 
 .list-group li {
     background-color: #f1eeee;
     border:none;
+}
+
+.list-group-item:last-child {
+    border-bottom-left-radius: 15px ;
+    border-bottom-right-radius: 15px;
+}
+
+#current-temp {
+    font-size: 3.5em;
 }
 
 .col {
@@ -77,7 +105,8 @@ header a:hover {
 }
 
 footer {
-    height: 60px;
+    height: 80px;
+    background-color: #181818;
 }
 
 @media (min-width: 1200px) {
