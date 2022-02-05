@@ -10,7 +10,7 @@ let coordinates;
 let map;
 let geocoder;
 
-getUserLocation().then(function(result){
+getUserLocation().then(function (result) {
     showPage();
     coordinates = result;
     getCurrentWeather(coordinates[0], coordinates[1]);
@@ -24,7 +24,6 @@ getUserLocation().then(function(result){
 /***************   WEATHER FUNCTIONS  *******************/
 
 // Get current weather in passed in coordinates
-// Populate current weather card with data received
 function getCurrentWeather(inputLong, inputLat) {
     $.get("http://api.openweathermap.org/data/2.5/weather", {
         APPID: WEATHER_KEY,
@@ -32,11 +31,13 @@ function getCurrentWeather(inputLong, inputLat) {
         lat: inputLat,
         units: "imperial"
     }).done((result) => populateCurrentWeather(result))
-        .fail( () => { console.log("Failed to retrieve data") });
+        .fail(() => {
+            console.log("Failed to retrieve data")
+        });
 }
 
 // Populate current weather card with data received
-function populateCurrentWeather(result){
+function populateCurrentWeather(result) {
     $("#current-city").text(result.name);  // Update current city display
 
     // Current Weather Card Header
@@ -59,20 +60,22 @@ function populateCurrentWeather(result){
 }
 
 // Get 5-day weather forecast of passed in coordinates
-function getForecast(inputLong, inputLat){
+function getForecast(inputLong, inputLat) {
     $.get("http://api.openweathermap.org/data/2.5/onecall", {
         APPID: WEATHER_KEY,
         lon: inputLong,
         lat: inputLat,
         units: "imperial"
     }).done((result) => populateForecast(result))
-        .fail( () => { console.log("Failed to retrieve data") });
+        .fail(() => {
+            console.log("Failed to retrieve data")
+        });
 }
 
 // Populate forecast cards with passed in coordinates
-function populateForecast(result){
+function populateForecast(result) {
     let forecastObj = result.daily;
-    for(let i = 1; i < 6; i++){
+    for (let i = 1; i < 6; i++) {
         // Forecast Card Header
         $(`#forecast-date-${i}`).text(formatUnixDate(forecastObj[i].dt));
         $(`#forecast-weekday-${i}`).text(WEEKDAYS[getDayFromUnixTime(forecastObj[i].dt)]);
@@ -81,7 +84,7 @@ function populateForecast(result){
         $(`#forecast-high-${i}`).text("H: " + forecastObj[i].temp.max + "\u2109");
         $(`#forecast-low-${i}`).text("L: " + forecastObj[i].temp.min + "\u2109");
         let icon = forecastObj[i].weather[0].icon;
-        $(`#forecast-icon-${i}`).attr("src",`http://openweathermap.org/img/w/${icon}.png`);
+        $(`#forecast-icon-${i}`).attr("src", `http://openweathermap.org/img/w/${icon}.png`);
 
         // Forecast Card List
         $(`#forecast-details-${i} li:nth-child(1)`).text("Description: " + capitalizeFirstLetter(forecastObj[i].weather[0].description));
@@ -92,9 +95,9 @@ function populateForecast(result){
 }
 
 // Adds appropriate bg image based on weather description
-function renderWeatherBackgroundImage(weather){
+function renderWeatherBackgroundImage(weather) {
     let cardBodyBg = $("#current-weather .card-body");
-    switch(weather){
+    switch (weather) {
         case "Clouds":
             cardBodyBg.css({"background-image": "url(assets/clouds.jpg)", "color": "black"});
             break;
@@ -130,21 +133,42 @@ function renderWeatherBackgroundImage(weather){
 
 /*****************  MAPBOX FUNCTIONS  **********************/
 
-// Gets the user's location
-function getUserLocation(){
-    return new Promise(function(myResolve, myReject){
+// Retrieves the user's coordinates. Return default coordinates if geolocation is disabled
+function getUserLocation() {
+    return new Promise(function (resolve, reject) {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                myResolve([position.coords.longitude, position.coords.latitude]);
-            });
-        }  else {
-            myReject([DEFAULT_LONGITUDE, DEFAULT_LATITUDE]);
+            navigator.geolocation.getCurrentPosition(showSuccess, showError);
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+            reject([DEFAULT_LONGITUDE, DEFAULT_LATITUDE]);
+        }
+
+        function showSuccess(position){
+            resolve ([position.coords.longitude, position.coords.latitude]);
+        }
+
+        function showError(error){
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("The acquisition of the geolocation information failed because the page didn't have the permission to do it.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("The acquisition of the geolocation failed because one or several internal sources of position returned an internal error.");
+                    break;
+                case error.TIMEOUT:
+                    console.log("Geolocation information was not obtained in the allowed time.");
+                    break;
+                default:
+                    console.log("An unknown error occurred.");
+                    break;
+            }
+            resolve([DEFAULT_LONGITUDE, DEFAULT_LATITUDE]);
         }
     });
 }
 
 // Initialize mapbox map
-function initializeMap(key, long, lat){
+function initializeMap(key, long, lat) {
     mapboxgl.accessToken = key;
     let map = new mapboxgl.Map({
         container: 'map',
@@ -156,11 +180,9 @@ function initializeMap(key, long, lat){
     // Add zoom and rotation controls to the map.
     map.addControl(new mapboxgl.NavigationControl());
 
-    // on click, adds marker on map
     // updates weather based on new marker
-    map.on("click", function(e) {
+    map.on("click", function (e) {
         let coordinates = e.lngLat;
-        console.log(coordinates);
         updateMarker(coordinates.lng, coordinates.lat);
         getCurrentWeather(coordinates.lng, coordinates.lat);
         getForecast(coordinates.lng, coordinates.lat);
@@ -169,7 +191,7 @@ function initializeMap(key, long, lat){
 }
 
 // Initialize mapbox geocoder
-function initializeGeocoder(map){
+function initializeGeocoder(map) {
     const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl,
@@ -179,9 +201,8 @@ function initializeGeocoder(map){
 
     $("#geocoder").append(geocoder.onAdd(map));
 
-    // After pressing enter on geocoder search
     // center map and create marker on result coordinates
-    geocoder.on("result", function(event) {
+    geocoder.on("result", function (event) {
         let newCoordinates = event.result.geometry.coordinates;
         updateMarker(newCoordinates[0], newCoordinates[1]);
         getCurrentWeather(newCoordinates[0], newCoordinates[1]);
@@ -192,31 +213,30 @@ function initializeGeocoder(map){
     return geocoder;
 }
 
-// updates location of marker
-function updateMarker(long, lat){
-    if(currentMarker.length > 0){
+// Updates location of marker
+function updateMarker(long, lat) {
+    if (currentMarker.length > 0) {
         let removeMarker = currentMarker.pop();
         removeMarker.remove();
     }
-    let newMarker = new mapboxgl.Marker({"color":"red"})
+    let newMarker = new mapboxgl.Marker({"color": "red"})
         .setLngLat([long, lat])
         .addTo(map);
 
     // assign as current marker
     currentMarker.push(newMarker);
-    console.log("currentMarker: " + currentMarker);
 }
 
-// centers map on marker
-function centerMapOnMarker(){
+// Centers map on marker
+function centerMapOnMarker() {
     let coordinates = currentMarker[0]._lngLat;
-    map.setCenter([coordinates.lng,coordinates.lat]);
+    map.setCenter([coordinates.lng, coordinates.lat]);
 }
 
-// Center map on current marker when current location text is clicked
-function createCurrentCityEventListener(){
-    if($("#current-city")){
-        $("#current-city").on("click", function(){
+// Centers map on current marker when current location icon is clicked
+function createCurrentCityEventListener() {
+    if ($("#current-city")) {
+        $("#current-city").on("click", function () {
             centerMapOnMarker();
         });
     }
@@ -225,7 +245,7 @@ function createCurrentCityEventListener(){
 /********************  UTILITIES  *****************************/
 
 const UNIX_TIMESTAMP_24_HOURS = 86400;  // 24 hours in unix time stamp
-const WEEKDAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 // Return unix time stamp in regular time format
 function formatUnixTime(unixTime) {
@@ -256,15 +276,16 @@ function getDayFromUnixTime(unixTime) {
 }
 
 // Capitalize every first letter in each word
-function capitalizeFirstLetter(str){
+function capitalizeFirstLetter(str) {
     let strArr = str.split(" ");
-    for(let i = 0; i < strArr.length; i++){
+    for (let i = 0; i < strArr.length; i++) {
         strArr[i] = strArr[i][0].toUpperCase() + strArr[i].substring(1);
     }
     return strArr.join(" ")
 }
 
-function showPage(){
+// Show loading page on initial page load
+function showPage() {
     $("#page-content").toggleClass("hide");
     $("#loading-screen").toggleClass("hide");
 }
