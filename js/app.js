@@ -6,39 +6,19 @@
 const DEFAULT_LONGITUDE = -106.44915607264488;
 const DEFAULT_LATITUDE = 31.770367133639994;
 let currentMarker = [];   // holds current marker. only contains one marker at a time
+let coordinates;
+let map;
+let geocoder;
 
-// Default Weather View (El Paso)
-getCurrentWeather(DEFAULT_LONGITUDE, DEFAULT_LATITUDE);
-getForecast(DEFAULT_LONGITUDE, DEFAULT_LATITUDE);
-let map = initializeMap(MAPBOX_KEY, DEFAULT_LONGITUDE, DEFAULT_LATITUDE);
-let geocoder = initializeGeocoder(map);
-updateMarker(DEFAULT_LONGITUDE,DEFAULT_LATITUDE); // default marker
-
-/***********************  EVENTS  *************************/
-
-// After pressing enter on geocoder search
-// center map and create marker on result coordinates
-geocoder.on("result", function(event) {
-    let newCoordinates = event.result.geometry.coordinates;
-    updateMarker(newCoordinates[0], newCoordinates[1]);
-    getCurrentWeather(newCoordinates[0], newCoordinates[1]);
-    getForecast(newCoordinates[0], newCoordinates[1]);
-    centerMapOnMarker();
-    map.setZoom(10);
-});
-
-// on click, adds marker on map
-// updates weather based on new marker
-map.on("click", function(e) {
-    let coordinates = e.lngLat;
-    updateMarker(coordinates.lng, coordinates.lat);
-    getCurrentWeather(coordinates.lng, coordinates.lat);
-    getForecast(coordinates.lng, coordinates.lat);
-});
-
-// Center map on current marker when current location text is clicked
-$("#current-city").click(function(){
-    centerMapOnMarker();
+getUserLocation().then(function(result){
+    showPage();
+    coordinates = result;
+    getCurrentWeather(coordinates[0], coordinates[1]);
+    getForecast(coordinates[0], coordinates[1]);
+    map = initializeMap(MAPBOX_KEY, coordinates[0], coordinates[1]);
+    geocoder = initializeGeocoder(map);
+    updateMarker(coordinates[0], coordinates[1]);
+    createCurrentCityEventListener();
 });
 
 /***************   WEATHER FUNCTIONS  *******************/
@@ -91,7 +71,6 @@ function getForecast(inputLong, inputLat){
 
 // Populate forecast cards with passed in coordinates
 function populateForecast(result){
-    console.log(result);
     let forecastObj = result.daily;
     for(let i = 1; i < 6; i++){
         // Forecast Card Header
@@ -151,6 +130,19 @@ function renderWeatherBackgroundImage(weather){
 
 /*****************  MAPBOX FUNCTIONS  **********************/
 
+// Gets the user's location
+function getUserLocation(){
+    return new Promise(function(myResolve, myReject){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                myResolve([position.coords.longitude, position.coords.latitude]);
+            });
+        }  else {
+            myReject([DEFAULT_LONGITUDE, DEFAULT_LATITUDE]);
+        }
+    });
+}
+
 // Initialize mapbox map
 function initializeMap(key, long, lat){
     mapboxgl.accessToken = key;
@@ -163,6 +155,16 @@ function initializeMap(key, long, lat){
 
     // Add zoom and rotation controls to the map.
     map.addControl(new mapboxgl.NavigationControl());
+
+    // on click, adds marker on map
+    // updates weather based on new marker
+    map.on("click", function(e) {
+        let coordinates = e.lngLat;
+        console.log(coordinates);
+        updateMarker(coordinates.lng, coordinates.lat);
+        getCurrentWeather(coordinates.lng, coordinates.lat);
+        getForecast(coordinates.lng, coordinates.lat);
+    });
     return map;
 }
 
@@ -176,6 +178,17 @@ function initializeGeocoder(map){
     });
 
     $("#geocoder").append(geocoder.onAdd(map));
+
+    // After pressing enter on geocoder search
+    // center map and create marker on result coordinates
+    geocoder.on("result", function(event) {
+        let newCoordinates = event.result.geometry.coordinates;
+        updateMarker(newCoordinates[0], newCoordinates[1]);
+        getCurrentWeather(newCoordinates[0], newCoordinates[1]);
+        getForecast(newCoordinates[0], newCoordinates[1]);
+        centerMapOnMarker();
+        map.setZoom(10);
+    });
     return geocoder;
 }
 
@@ -191,12 +204,22 @@ function updateMarker(long, lat){
 
     // assign as current marker
     currentMarker.push(newMarker);
+    console.log("currentMarker: " + currentMarker);
 }
 
 // centers map on marker
 function centerMapOnMarker(){
     let coordinates = currentMarker[0]._lngLat;
     map.setCenter([coordinates.lng,coordinates.lat]);
+}
+
+// Center map on current marker when current location text is clicked
+function createCurrentCityEventListener(){
+    if($("#current-city")){
+        $("#current-city").on("click", function(){
+            centerMapOnMarker();
+        });
+    }
 }
 
 /********************  UTILITIES  *****************************/
@@ -240,3 +263,9 @@ function capitalizeFirstLetter(str){
     }
     return strArr.join(" ")
 }
+
+function showPage(){
+    $("#page-content").toggleClass("hide");
+    $("#loading-screen").toggleClass("hide");
+}
+

@@ -23,185 +23,191 @@
 </head>
 
 <body>
-<!-- HEADER -->
-<header id="header-container" class="fluid-container primary-header">
-    <div class="container d-flex justify-content-between align-items-center h-100">
-        <!-- LOGO-->
-        <div class="w-25"><a href="#">Weather App</a></div>
-        <!-- SEARCH -->
-        <div class="pt-3 d-flex justify-content-center w-50 mt-1">
-            <div class="form-group">
-                <div id="geocoder"></div>
+<div id="loading-screen">
+    <h1>LOADING PLACEHOLDER....</h1>
+</div>
+<div id="page-content" class="hide">
+    <!-- HEADER -->
+    <header id="header-container" class="fluid-container primary-header">
+        <div class="container d-flex justify-content-between align-items-center h-100">
+            <!-- LOGO-->
+            <div class="w-25"><a href="#">Weather App</a></div>
+            <!-- SEARCH -->
+            <div class="pt-3 d-flex justify-content-center w-50 mt-1">
+                <div class="form-group">
+                    <div id="geocoder"></div>
+                </div>
+            </div>
+            <!-- CURRENT CITY-->
+            <div class="w-25 d-flex justify-content-end align-items-center">
+                <img src="assets/location.png" alt="location icon">
+                <span id="current-city"></span>
             </div>
         </div>
-        <!-- CURRENT CITY-->
-        <div class="w-25 d-flex justify-content-end align-items-center">
-            <img src="assets/location.png" alt="location icon">
-            <span id="current-city"></span>
-        </div>
-    </div>
-</header>
+    </header>
 
-<!-- MAIN -->
-<main id="main-container" class="container d-flex mt-5">
-    <!-- CURRENT WEATHER CARD -->
-    <div class="current-weather-container card" id="current-weather">
-        <!-- CARD HEADER -->
-        <div class="card-header d-flex justify-content-between">
-            <span id="current-date"></span>
-            <span id="current-weekday"></span>
-            <span id="current-time"></span>
+    <!-- MAIN -->
+    <main id="main-container" class="container d-flex mt-5">
+        <!-- CURRENT WEATHER CARD -->
+        <div class="current-weather-container card" id="current-weather">
+            <!-- CARD HEADER -->
+            <div class="card-header d-flex justify-content-between">
+                <span id="current-date"></span>
+                <span id="current-weekday"></span>
+                <span id="current-time"></span>
+            </div>
+            <!-- CARD BODY -->
+            <div class="card-body">
+                <h4 id="city-name" class="card-title text-center"></h4>
+                <p id="weather-desc" class="text-center"></p>
+                <h1 id="current-temp" class="text-center"></h1>
+            </div>
+            <!-- CARD LIST -->
+            <ul class="list-group list-group-flush" id="current-weather-details">
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+                <li class="list-group-item"></li>
+            </ul>
         </div>
-        <!-- CARD BODY -->
-        <div class="card-body">
-            <h4 id="city-name" class="card-title text-center"></h4>
-            <p id="weather-desc" class="text-center"></p>
-            <h1 id="current-temp" class="text-center"></h1>
-        </div>
-        <!-- CARD LIST -->
-        <ul class="list-group list-group-flush" id="current-weather-details">
-            <li class="list-group-item"></li>
-            <li class="list-group-item"></li>
-            <li class="list-group-item"></li>
-            <li class="list-group-item"></li>
-            <li class="list-group-item"></li>
-        </ul>
-    </div>
-    <!-- MAP -->
-    <div id="map" class="flex-grow-1 ml-3"></div>
-</main>
+        <!-- MAP -->
+        <div id="map" class="flex-grow-1 ml-3"></div>
+    </main>
 
-<!-- WEATHER FORECAST -->
-<section class="container">
-    <div id="weather-forecast-container" class="row justify-content-between px-3 my-4">
-        <!-- DAY 1 FORECAST CARD-->
-        <div class="weather-forecast-card card">
-            <!-- CARD HEADER -->
-            <div class="card-header d-flex justify-content-between">
-                <span id="forecast-date-1"></span>
-                <span id="forecast-weekday-1"></span>
-            </div>
-            <!-- CARD BODY -->
-            <div class="card-body">
-                <div class="row text-center m-auto">
-                    <span id="forecast-high-1" class="col-6 forecast-high"></span>
-                    <span id="forecast-low-1" class="col-6 forecast-low"></span>
+    <!-- WEATHER FORECAST -->
+    <section class="container">
+        <div id="weather-forecast-container" class="row justify-content-between px-3 my-4">
+            <!-- DAY 1 FORECAST CARD-->
+            <div class="weather-forecast-card card">
+                <!-- CARD HEADER -->
+                <div class="card-header d-flex justify-content-between">
+                    <span id="forecast-date-1"></span>
+                    <span id="forecast-weekday-1"></span>
                 </div>
-                <div class="d-flex justify-content-center">
-                    <img src="" alt="weather icon" id="forecast-icon-1">
+                <!-- CARD BODY -->
+                <div class="card-body">
+                    <div class="row text-center m-auto">
+                        <span id="forecast-high-1" class="col-6 forecast-high"></span>
+                        <span id="forecast-low-1" class="col-6 forecast-low"></span>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <img src="" alt="weather icon" id="forecast-icon-1">
+                    </div>
                 </div>
+                <!-- CARD LIST -->
+                <ul class="list-group list-group-flush" id="forecast-details-1">
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                </ul>
             </div>
-            <!-- CARD LIST -->
-            <ul class="list-group list-group-flush" id="forecast-details-1">
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-            </ul>
+            <!-- DAY 2 FORECAST CARD-->
+            <div class="weather-forecast-card card">
+                <!-- CARD HEADER -->
+                <div class="card-header d-flex justify-content-between">
+                    <span id="forecast-date-2"></span>
+                    <span id="forecast-weekday-2"></span>
+                </div>
+                <!-- CARD BODY -->
+                <div class="card-body">
+                    <div class="row text-center m-auto">
+                        <span id="forecast-high-2" class="col-6 forecast-high"></span>
+                        <span id="forecast-low-2" class="col-6 forecast-low"></span>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <img src="" alt="weather icon" id="forecast-icon-2">
+                    </div>
+                </div>
+                <!-- CARD LIST -->
+                <ul class="list-group list-group-flush" id="forecast-details-2">
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                </ul>
+            </div>
+            <!-- DAY 3 FORECAST CARD-->
+            <div class="weather-forecast-card card">
+                <!-- CARD HEADER -->
+                <div class="card-header d-flex justify-content-between">
+                    <span id="forecast-date-3"></span>
+                    <span id="forecast-weekday-3"></span>
+                </div>
+                <!-- CARD BODY -->
+                <div class="card-body">
+                    <div class="row text-center m-auto">
+                        <span id="forecast-high-3" class="col-6 forecast-high"></span>
+                        <span id="forecast-low-3" class="col-6 forecast-low"></span>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <img src="" alt="weather icon" id="forecast-icon-3">
+                    </div>
+                </div>
+                <!-- CARD LIST -->
+                <ul class="list-group list-group-flush" id="forecast-details-3">
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                </ul>
+            </div>
+            <!-- DAY 4 FORECAST CARD-->
+            <div class="weather-forecast-card card">
+                <!-- CARD HEADER -->
+                <div class="card-header d-flex justify-content-between">
+                    <span id="forecast-date-4"></span>
+                    <span id="forecast-weekday-4"></span>
+                </div>
+                <!-- CARD BODY -->
+                <div class="card-body">
+                    <div class="row text-center m-auto">
+                        <span id="forecast-high-4" class="col-6 forecast-high"></span>
+                        <span id="forecast-low-4" class="col-6 forecast-low"></span>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <img src="" alt="weather icon" id="forecast-icon-4">
+                    </div>
+                </div>
+                <!-- CARD LIST -->
+                <ul class="list-group list-group-flush" id="forecast-details-4">
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                </ul>
+            </div>
+            <!-- DAY 5 FORECAST CARD-->
+            <div class="weather-forecast-card card">
+                <!-- CARD HEADER -->
+                <div class="card-header d-flex justify-content-between">
+                    <span id="forecast-date-5"></span>
+                    <span id="forecast-weekday-5"></span>
+                </div>
+                <!-- CARD BODY -->
+                <div class="card-body">
+                    <div class="row text-center m-auto">
+                        <span id="forecast-high-5" class="col-6 forecast-high"></span>
+                        <span id="forecast-low-5" class="col-6 forecast-low"></span>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <img src="" alt="weather icon" id="forecast-icon-5">
+                    </div>
+                </div>
+                <!-- CARD LIST -->
+                <ul class="list-group list-group-flush" id="forecast-details-5">
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                    <li class="list-group-item"></li>
+                </ul>
+            </div>
         </div>
-        <!-- DAY 2 FORECAST CARD-->
-        <div class="weather-forecast-card card">
-            <!-- CARD HEADER -->
-            <div class="card-header d-flex justify-content-between">
-                <span id="forecast-date-2"></span>
-                <span id="forecast-weekday-2"></span>
-            </div>
-            <!-- CARD BODY -->
-            <div class="card-body">
-                <div class="row text-center m-auto">
-                    <span id="forecast-high-2" class="col-6 forecast-high"></span>
-                    <span id="forecast-low-2" class="col-6 forecast-low"></span>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <img src="" alt="weather icon" id="forecast-icon-2">
-                </div>
-            </div>
-            <!-- CARD LIST -->
-            <ul class="list-group list-group-flush" id="forecast-details-2">
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-            </ul>
-        </div>
-        <!-- DAY 3 FORECAST CARD-->
-        <div class="weather-forecast-card card">
-            <!-- CARD HEADER -->
-            <div class="card-header d-flex justify-content-between">
-                <span id="forecast-date-3"></span>
-                <span id="forecast-weekday-3"></span>
-            </div>
-            <!-- CARD BODY -->
-            <div class="card-body">
-                <div class="row text-center m-auto">
-                    <span id="forecast-high-3" class="col-6 forecast-high"></span>
-                    <span id="forecast-low-3" class="col-6 forecast-low"></span>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <img src="" alt="weather icon" id="forecast-icon-3">
-                </div>
-            </div>
-            <!-- CARD LIST -->
-            <ul class="list-group list-group-flush" id="forecast-details-3">
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-            </ul>
-        </div>
-        <!-- DAY 4 FORECAST CARD-->
-        <div class="weather-forecast-card card">
-            <!-- CARD HEADER -->
-            <div class="card-header d-flex justify-content-between">
-                <span id="forecast-date-4"></span>
-                <span id="forecast-weekday-4"></span>
-            </div>
-            <!-- CARD BODY -->
-            <div class="card-body">
-                <div class="row text-center m-auto">
-                    <span id="forecast-high-4" class="col-6 forecast-high"></span>
-                    <span id="forecast-low-4" class="col-6 forecast-low"></span>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <img src="" alt="weather icon" id="forecast-icon-4">
-                </div>
-            </div>
-            <!-- CARD LIST -->
-            <ul class="list-group list-group-flush" id="forecast-details-4">
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-            </ul>
-        </div>
-        <!-- DAY 5 FORECAST CARD-->
-        <div class="weather-forecast-card card">
-            <!-- CARD HEADER -->
-            <div class="card-header d-flex justify-content-between">
-                <span id="forecast-date-5"></span>
-                <span id="forecast-weekday-5"></span>
-            </div>
-            <!-- CARD BODY -->
-            <div class="card-body">
-                <div class="row text-center m-auto">
-                    <span id="forecast-high-5" class="col-6 forecast-high"></span>
-                    <span id="forecast-low-5" class="col-6 forecast-low"></span>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <img src="" alt="weather icon" id="forecast-icon-5">
-                </div>
-            </div>
-            <!-- CARD LIST -->
-            <ul class="list-group list-group-flush" id="forecast-details-5">
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-                <li class="list-group-item"></li>
-            </ul>
-        </div>
-    </div>
-</section>
-<footer class="fluid-container mt-5"></footer>
+    </section>
+    <footer class="fluid-container mt-5"></footer>
+</div>
+
 
 <!-- jQuery -->
 <script src="js/jquery-2.2.4.js"></script>
